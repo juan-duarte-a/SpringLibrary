@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Spring Library</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/library.css">
+</head>
+
+<body>
+  <div th:if="${action == 'home'}" class="d-flex align-items-center justify-content-center vh-80">
+    <h1 class="display-2">Welcome to Spring Library!</h1>
+  </div>
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/library">Spring Library</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mx-4">
+          <li class="nav-item">
+            <a class="nav-link" th:classappend="${action == 'Authors' ? 'active' : ''}"
+               href="/library/authors">Authors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:classappend="${action == 'Publishers' ? 'active' : ''}"
+               href="/library/publishers">Publishers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:classappend="${action == 'Books' ? 'active' : ''}"
+               href="/library/books">Books</a>
+          </li>
+        </ul>
+      </div>
+      <form class="d-flex justify-content-end" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="p-2">
+    <h2 th:unless="${action == 'home'}" class="p-4" th:text="${action}"></h2>
+
+    <ul th:if="${action == 'Authors'}">
+      <li th:each="author : ${authors}" th:text="${author}"></li>
+    </ul>
+
+    <ul th:if="${action == 'Publishers'}">
+      <li th:each="publisher : ${publishers}" th:text="${publisher}"></li>
+    </ul>
+
+    <ul th:if="${action == 'Books'}">
+      <li th:each="book : ${books}">
+        <span th:text="${book.title}"></span>
+        <ul>
+          <li th:text="${'ISBN: ' + book.isbn}"></li>
+          <li th:text="${'Author: ' + book.author}"></li>
+          <li th:text="${'Publisher: ' + book.publisher}"></li>
+          <li th:text="${'Year: ' + book.year}"></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <script src="/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>
