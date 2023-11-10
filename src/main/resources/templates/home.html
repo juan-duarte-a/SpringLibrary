@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div th:if="${action == 'home'}" class="d-flex align-items-center justify-content-center vh-80">
+  <div th:if="${action == 'Home'}" class="d-flex align-items-center justify-content-center vh-80">
     <h1 class="display-2">Welcome to Spring Library!</h1>
   </div>
 
@@ -32,15 +32,18 @@
           </li>
         </ul>
       </div>
-      <form class="d-flex justify-content-end" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form class="d-flex justify-content-end" role="search"
+            th:action="@{'/library/search'}" th:object="${searchForm}" method="get">
+        <input type="hidden" th:value="${action}" th:field="*{action}">
+        <input class="form-control me-2" type="search" placeholder="Search (alt+shift+k)" aria-label="Search"
+               th:field="*{searchText}" autocomplete="off" accesskey="k">
         <button class="btn btn-outline-light" type="submit">Search</button>
       </form>
     </div>
   </nav>
 
   <div class="p-2">
-    <h2 th:unless="${action == 'home'}" class="p-4" th:text="${action}"></h2>
+    <h2 th:unless="${action == 'Home'}" class="p-4" th:text="${action}"></h2>
 
     <ul th:if="${action == 'Authors'}">
       <li th:each="author : ${authors}" th:text="${author}"></li>

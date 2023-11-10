@@ -3,6 +3,7 @@ package app.jdev.library.controller;
 import app.jdev.library.entity.Author;
 import app.jdev.library.entity.Book;
 import app.jdev.library.entity.Publisher;
+import app.jdev.library.model.SearchForm;
 import app.jdev.library.service.AuthorService;
 import app.jdev.library.service.BookService;
 import app.jdev.library.service.PublisherService;
@@ -11,18 +12,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/library")
-public class HomeController {
+public class LibraryController {
 
     private final AuthorService authorService;
     private final PublisherService publisherService;
     private final BookService bookService;
 
-    public HomeController(AuthorService authorService, PublisherService publisherService, BookService bookService) {
+    public LibraryController(AuthorService authorService, PublisherService publisherService, BookService bookService) {
         this.authorService = authorService;
         this.publisherService = publisherService;
         this.bookService = bookService;
@@ -30,7 +32,8 @@ public class HomeController {
 
     @GetMapping("")
     public String requestHome(Model model) {
-        model.addAttribute("action", "home");
+        model.addAttribute("action", Action.HOME.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.HOME.getAction(), ""));
         return "home";
     }
 
@@ -44,7 +47,8 @@ public class HomeController {
             authors = authorService.findAllAuthorsByName(name);
         }
 
-        model.addAttribute("action", "Authors");
+        model.addAttribute("action", Action.AUTHORS.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.AUTHORS.getAction(), ""));
         model.addAttribute("authors", authors);
         return "home";
     }
@@ -59,7 +63,8 @@ public class HomeController {
             publishers = publisherService.findAllPublishersByName(name);
         }
 
-        model.addAttribute("action", "Publishers");
+        model.addAttribute("action", Action.PUBLISHERS.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.PUBLISHERS.getAction(), ""));
         model.addAttribute("publishers", publishers);
         return "home";
     }
@@ -74,9 +79,29 @@ public class HomeController {
             books = bookService.findAllBooksByTitle(title);
         }
 
-        model.addAttribute("action", "Books");
+        model.addAttribute("action", Action.BOOKS.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
         model.addAttribute("books", books);
         return "home";
+    }
+
+    @GetMapping("/search")
+    public String search(SearchForm searchForm) {
+        String redirectURL = "";
+
+        switch (searchForm.action()) {
+            case "Home", "Books" -> redirectURL = UriComponentsBuilder.fromPath("/library/books")
+                    .queryParam("title", searchForm.searchText())
+                    .build().toUriString();
+            case "Publishers" -> redirectURL = UriComponentsBuilder.fromPath("/library/publishers")
+                    .queryParam("name", searchForm.searchText())
+                    .build().toUriString();
+            case "Authors" -> redirectURL = UriComponentsBuilder.fromPath("/library/authors")
+                    .queryParam("name", searchForm.searchText())
+                    .build().toUriString();
+        }
+
+        return "redirect:" + redirectURL;
     }
 
 }
