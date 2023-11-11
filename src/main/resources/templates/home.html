@@ -13,10 +13,14 @@
     <h1 class="display-2">Welcome to Spring Library!</h1>
   </div>
 
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4" th:fragment="header">
     <div class="container-fluid">
       <a class="navbar-brand" href="/library">Spring Library</a>
-      <div class="collapse navbar-collapse">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-4">
           <li class="nav-item">
             <a class="nav-link" th:classappend="${action == 'Authors' ? 'active' : ''}"
@@ -30,6 +34,18 @@
             <a class="nav-link" th:classappend="${action == 'Books' ? 'active' : ''}"
                href="/library/books">Books</a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                th:classappend="${action == 'Register' ? 'active' : ''}">
+              Register
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/library/new/author">New author</a></li>
+              <li><a class="dropdown-item" href="/library/new/publisher">New publisher</a></li>
+              <li><a class="dropdown-item" href="#">New book</a></li>
+            </ul>
+          </li>
+  
         </ul>
       </div>
       <form class="d-flex justify-content-end" role="search"
@@ -42,28 +58,29 @@
     </div>
   </nav>
 
-  <div class="p-2">
-    <h2 th:unless="${action == 'Home'}" class="p-4" th:text="${action}"></h2>
+  <div th:unless="${action == 'Home'}" class="main-content">
+    <h2 class="p-2 m-3" th:text="${action}"></h2>
+    <div class="d-flex overflow-auto rounded bg-content p-2 m-3">
+      <ul th:if="${action == 'Authors'}">
+        <li th:each="author : ${authors}" th:text="${author}"></li>
+      </ul>
 
-    <ul th:if="${action == 'Authors'}">
-      <li th:each="author : ${authors}" th:text="${author}"></li>
-    </ul>
+      <ul th:if="${action == 'Publishers'}">
+        <li th:each="publisher : ${publishers}" th:text="${publisher}"></li>
+      </ul>
 
-    <ul th:if="${action == 'Publishers'}">
-      <li th:each="publisher : ${publishers}" th:text="${publisher}"></li>
-    </ul>
-
-    <ul th:if="${action == 'Books'}">
-      <li th:each="book : ${books}">
-        <span th:text="${book.title}"></span>
-        <ul>
-          <li th:text="${'ISBN: ' + book.isbn}"></li>
-          <li th:text="${'Author: ' + book.author}"></li>
-          <li th:text="${'Publisher: ' + book.publisher}"></li>
-          <li th:text="${'Year: ' + book.year}"></li>
-        </ul>
-      </li>
-    </ul>
+      <ul th:if="${action == 'Books'}">
+        <li th:each="book : ${books}">
+          <span th:text="${book.title}"></span>
+          <ul>
+            <li th:text="${'ISBN: ' + book.isbn}"></li>
+            <li th:text="${'Author: ' + book.author}"></li>
+            <li th:text="${'Publisher: ' + book.publisher}"></li>
+            <li th:text="${'Year: ' + book.year}"></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <script src="/js/bootstrap.bundle.js"></script>

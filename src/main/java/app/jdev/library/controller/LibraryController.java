@@ -10,6 +10,7 @@ import app.jdev.library.service.PublisherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -87,6 +88,10 @@ public class LibraryController {
 
     @GetMapping("/search")
     public String search(SearchForm searchForm) {
+        if (searchForm.action() == null) {
+            return "redirect:/library";
+        }
+
         String redirectURL = "";
 
         switch (searchForm.action()) {
@@ -102,6 +107,56 @@ public class LibraryController {
         }
 
         return "redirect:" + redirectURL;
+    }
+
+    @GetMapping("/new/author")
+    public String requestNewAuthor(Model model) {
+        model.addAttribute("action", Action.REGISTER.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
+        model.addAttribute("author", new Author());
+        return "new-author";
+    }
+
+    @PostMapping("/new/author")
+    public String registerAuthor(Author author, Model model) {
+        model.addAttribute("action", Action.REGISTER.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
+        author.setName(author.getName().trim());
+
+        if (authorService.existsAuthorByName(author.getName())) {
+            model.addAttribute("error", "error");
+        } else {
+            authorService.saveAuthor(author);
+            model.addAttribute("success", "success");
+            author.setName("");
+        }
+
+        return "new-author";
+    }
+
+    @GetMapping("/new/publisher")
+    public String requestNewPublisher(Model model) {
+        model.addAttribute("action", Action.REGISTER.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
+        model.addAttribute("publisher", new Publisher());
+        return "new-publisher";
+    }
+
+    @PostMapping("/new/publisher")
+    public String registerPublisher(Publisher publisher, Model model) {
+        model.addAttribute("action", Action.REGISTER.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
+        publisher.setName(publisher.getName().trim());
+
+        if (publisherService.existsPublisherByName(publisher.getName())) {
+            model.addAttribute("error", "error");
+        } else {
+            publisherService.savePublisher(publisher);
+            model.addAttribute("success", "success");
+            publisher.setName("");
+        }
+
+        return "new-publisher";
     }
 
 }

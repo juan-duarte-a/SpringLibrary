@@ -23,4 +23,12 @@ public class PublisherService {
         return publisherRepository.findAllByNameContainingIgnoreCase(name);
     }
 
+    public boolean existsPublisherByName(String name) {
+        return publisherRepository.existsByNameIgnoreCase(name);
+    }
+
+    public Publisher savePublisher(Publisher publisher) {
+        return publisherRepository.save(publisher);
+    }
+
 }

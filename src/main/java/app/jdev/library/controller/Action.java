@@ -4,7 +4,8 @@ public enum Action {
     HOME("Home"),
     AUTHORS("Authors"),
     PUBLISHERS("Publishers"),
-    BOOKS("Books");
+    BOOKS("Books"),
+    REGISTER("Register");
 
     private final String action;
 

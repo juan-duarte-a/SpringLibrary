@@ -27,4 +27,12 @@ public class AuthorService {
         return authorRepository.findAllByNameContainingIgnoreCase(name);
     }
 
+    public boolean existsAuthorByName(String name) {
+        return authorRepository.existsByNameIgnoreCase(name);
+    }
+
+    public Author saveAuthor(Author author) {
+        return authorRepository.save(author);
+    }
+
 }
