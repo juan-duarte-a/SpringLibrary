@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
-@RequestMapping("/library")
+@RequestMapping("/")
 public class LibraryController {
 
     private final AuthorService authorService;
@@ -38,7 +40,7 @@ public class LibraryController {
         return "home";
     }
 
-    @GetMapping("/authors")
+    @GetMapping("authors")
     public String requestAuthors(@RequestParam(name = "name", required = false) String name, Model model) {
         List<Author> authors;
 
@@ -54,7 +56,7 @@ public class LibraryController {
         return "home";
     }
 
-    @GetMapping("/publishers")
+    @GetMapping("publishers")
     public String requestPublishers(@RequestParam(name = "name", required = false) String name, Model model) {
         List<Publisher> publishers;
 
@@ -70,14 +72,23 @@ public class LibraryController {
         return "home";
     }
 
-    @GetMapping("/books")
-    public String requestBooks(@RequestParam(name = "title", required = false) String title, Model model) {
+    @GetMapping("books")
+    public String requestBooks(@RequestParam(name = "title", required = false) String title,
+                               @RequestParam(name = "author", required = false) String authorName,
+                               @RequestParam(name = "publisher", required = false) String publisherName,
+                               Model model) {
         List<Book> books;
 
-        if (title == null) {
+        if (title == null && authorName == null && publisherName == null) {
             books = bookService.findAllBooks();
-        } else {
+        } else if (title != null) {
             books = bookService.findAllBooksByTitle(title);
+        } else if (authorName != null) {
+            books = bookService.findAllBooksByAuthorName(authorName);
+            model.addAttribute("authorName", authorName);
+        } else {
+            books = bookService.findAllBooksByPublisherName(publisherName);
+            model.addAttribute("publisherName", publisherName);
         }
 
         model.addAttribute("action", Action.BOOKS.getAction());
@@ -86,30 +97,30 @@ public class LibraryController {
         return "home";
     }
 
-    @GetMapping("/search")
+    @GetMapping("search")
     public String search(SearchForm searchForm) {
         if (searchForm.action() == null) {
-            return "redirect:/library";
+            return "redirect:/";
         }
 
         String redirectURL = "";
 
         switch (searchForm.action()) {
-            case "Home", "Books" -> redirectURL = UriComponentsBuilder.fromPath("/library/books")
-                    .queryParam("title", searchForm.searchText())
+            case "Home", "Books" -> redirectURL = UriComponentsBuilder.fromPath("books")
+                    .queryParam("title", URLEncoder.encode(searchForm.searchText(), StandardCharsets.UTF_8))
                     .build().toUriString();
-            case "Publishers" -> redirectURL = UriComponentsBuilder.fromPath("/library/publishers")
-                    .queryParam("name", searchForm.searchText())
+            case "Publishers" -> redirectURL = UriComponentsBuilder.fromPath("publishers")
+                    .queryParam("name", URLEncoder.encode(searchForm.searchText(), StandardCharsets.UTF_8))
                     .build().toUriString();
-            case "Authors" -> redirectURL = UriComponentsBuilder.fromPath("/library/authors")
-                    .queryParam("name", searchForm.searchText())
+            case "Authors" -> redirectURL = UriComponentsBuilder.fromPath("authors")
+                    .queryParam("name", URLEncoder.encode(searchForm.searchText(), StandardCharsets.UTF_8))
                     .build().toUriString();
         }
 
-        return "redirect:" + redirectURL;
+        return "redirect:/" + redirectURL;
     }
 
-    @GetMapping("/new/author")
+    @GetMapping("new/author")
     public String requestNewAuthor(Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
@@ -117,7 +128,7 @@ public class LibraryController {
         return "new-author";
     }
 
-    @PostMapping("/new/author")
+    @PostMapping("new/author")
     public String registerAuthor(Author author, Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
@@ -134,7 +145,7 @@ public class LibraryController {
         return "new-author";
     }
 
-    @GetMapping("/new/publisher")
+    @GetMapping("new/publisher")
     public String requestNewPublisher(Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
@@ -142,7 +153,7 @@ public class LibraryController {
         return "new-publisher";
     }
 
-    @PostMapping("/new/publisher")
+    @PostMapping("new/publisher")
     public String registerPublisher(Publisher publisher, Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));

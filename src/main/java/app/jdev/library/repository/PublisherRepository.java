@@ -1,11 +1,11 @@
 package app.jdev.library.repository;
 
 import app.jdev.library.entity.Publisher;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface PublisherRepository extends JpaRepository<Publisher, Long> {
+public interface PublisherRepository extends CrudRepository<Publisher, Long> {
 
     List<Publisher> findAllByOrderByNameAsc();
 

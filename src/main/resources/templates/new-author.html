@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <form th:action="@{'/library/new/author'}" th:object="${author}" method="post">
+        <form th:action="@{'/new/author'}" th:object="${author}" method="post">
           <p><label class="fs-5" for="author-name">Insert author name:</label></p>
           <p><input class="form-control" type="text" name="author-name" id="author-name" 
               th:field="*{name}" placeholder="author name" required autocomplete="off" autofocus></p>

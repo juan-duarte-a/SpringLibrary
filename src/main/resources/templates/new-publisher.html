@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <form th:action="@{'/library/new/publisher'}" th:object="${publisher}" method="post">
+        <form th:action="@{'/new/publisher'}" th:object="${publisher}" method="post">
           <p><label class="fs-5" for="publisher-name">Insert publisher name:</label></p>
           <p><input class="form-control" type="text" name="publisher-name" id="publisher-name" 
               th:field="*{name}" placeholder="publisher name" required autocomplete="off" autofocus></p>

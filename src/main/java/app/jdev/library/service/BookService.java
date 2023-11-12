@@ -23,4 +23,12 @@ public class BookService {
         return bookRepository.findAllByTitleContainingIgnoreCase(title);
     }
 
+    public List<Book> findAllBooksByAuthorName(String authorName) {
+        return bookRepository.findAllByAuthor_Name(authorName);
+    }
+
+    public List<Book> findAllBooksByPublisherName(String publisherName) {
+        return bookRepository.findAllByPublisher_Name(publisherName);
+    }
+
 }

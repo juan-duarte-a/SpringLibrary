@@ -15,7 +15,7 @@
 
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4" th:fragment="header">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/library">Spring Library</a>
+      <a class="navbar-brand" href="/">Spring Library</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -24,15 +24,15 @@
         <ul class="navbar-nav mx-4">
           <li class="nav-item">
             <a class="nav-link" th:classappend="${action == 'Authors' ? 'active' : ''}"
-               href="/library/authors">Authors</a>
+               href="/authors">Authors</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:classappend="${action == 'Publishers' ? 'active' : ''}"
-               href="/library/publishers">Publishers</a>
+               href="/publishers">Publishers</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:classappend="${action == 'Books' ? 'active' : ''}"
-               href="/library/books">Books</a>
+               href="/books">Books</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
@@ -40,8 +40,8 @@
               Register
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="/library/new/author">New author</a></li>
-              <li><a class="dropdown-item" href="/library/new/publisher">New publisher</a></li>
+              <li><a class="dropdown-item" href="/new/author">New author</a></li>
+              <li><a class="dropdown-item" href="/new/publisher">New publisher</a></li>
               <li><a class="dropdown-item" href="#">New book</a></li>
             </ul>
           </li>
@@ -49,7 +49,7 @@
         </ul>
       </div>
       <form class="d-flex justify-content-end" role="search"
-            th:action="@{'/library/search'}" th:object="${searchForm}" method="get">
+            th:action="@{'/search'}" th:object="${searchForm}" method="get">
         <input type="hidden" th:value="${action}" th:field="*{action}">
         <input class="form-control me-2" type="search" placeholder="Search (alt+shift+k)" aria-label="Search"
                th:field="*{searchText}" autocomplete="off" accesskey="k">
@@ -59,19 +59,33 @@
   </nav>
 
   <div th:unless="${action == 'Home'}" class="main-content">
-    <h2 class="p-2 m-3" th:text="${action}"></h2>
-    <div class="d-flex overflow-auto rounded bg-content p-2 m-3">
+    <h2 class="p-2 m-3">
+      <span th:text="${action}"></span>
+      <span th:unless="${authorName == null}" th:text="'by ' + ${authorName}"></span>
+      <span th:unless="${publisherName == null}" th:text="'published by ' + ${publisherName}"></span>
+    </h2>
+    <div class="d-flex overflow-auto rounded bg-content p-3 m-3">
       <ul th:if="${action == 'Authors'}">
-        <li th:each="author : ${authors}" th:text="${author}"></li>
+        <li th:each="author : ${authors}">
+          <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+             th:href="'/books?author=' + ${author.authorUriValidName}" th:text="${author}"></a>
+          <span>- Books:</span>
+          <span th:text="${#lists.size(author.books)}"></span>
+        </li>
       </ul>
 
       <ul th:if="${action == 'Publishers'}">
-        <li th:each="publisher : ${publishers}" th:text="${publisher}"></li>
+        <li th:each="publisher : ${publishers}">
+          <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+             th:href="'/books?publisher=' + ${publisher.publisherUriValidName}" th:text="${publisher}"></a>
+          <span>- Books:</span>
+          <span th:text="${#lists.size(publisher.books)}"></span>
+        </li>
       </ul>
 
       <ul th:if="${action == 'Books'}">
         <li th:each="book : ${books}">
-          <span th:text="${book.title}"></span>
+          <b><span th:text="${book.title}"></span></b>
           <ul>
             <li th:text="${'ISBN: ' + book.isbn}"></li>
             <li th:text="${'Author: ' + book.author}"></li>
