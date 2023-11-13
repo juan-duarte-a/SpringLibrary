@@ -3,6 +3,7 @@ package app.jdev.library.controller;
 import app.jdev.library.entity.Author;
 import app.jdev.library.entity.Book;
 import app.jdev.library.entity.Publisher;
+import app.jdev.library.model.BookForm;
 import app.jdev.library.model.SearchForm;
 import app.jdev.library.service.AuthorService;
 import app.jdev.library.service.BookService;
@@ -120,7 +121,7 @@ public class LibraryController {
         return "redirect:/" + redirectURL;
     }
 
-    @GetMapping("new/author")
+    @GetMapping("authors/new")
     public String requestNewAuthor(Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
@@ -128,13 +129,13 @@ public class LibraryController {
         return "new-author";
     }
 
-    @PostMapping("new/author")
+    @PostMapping("authors/new")
     public String registerAuthor(Author author, Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
         author.setName(author.getName().trim());
 
-        if (authorService.existsAuthorByName(author.getName())) {
+        if (author.getName().isBlank() || authorService.existsAuthorByName(author.getName())) {
             model.addAttribute("error", "error");
         } else {
             authorService.saveAuthor(author);
@@ -145,7 +146,7 @@ public class LibraryController {
         return "new-author";
     }
 
-    @GetMapping("new/publisher")
+    @GetMapping("publishers/new")
     public String requestNewPublisher(Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
@@ -153,13 +154,13 @@ public class LibraryController {
         return "new-publisher";
     }
 
-    @PostMapping("new/publisher")
+    @PostMapping("publishers/new")
     public String registerPublisher(Publisher publisher, Model model) {
         model.addAttribute("action", Action.REGISTER.getAction());
         model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
         publisher.setName(publisher.getName().trim());
 
-        if (publisherService.existsPublisherByName(publisher.getName())) {
+        if (publisher.getName().isBlank() || publisherService.existsPublisherByName(publisher.getName())) {
             model.addAttribute("error", "error");
         } else {
             publisherService.savePublisher(publisher);
@@ -168,6 +169,53 @@ public class LibraryController {
         }
 
         return "new-publisher";
+    }
+
+    @GetMapping("books/new")
+    public String requestNewBook(Model model) {
+        model.addAttribute("action", Action.REGISTER.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
+        model.addAttribute("authors", authorService.findAllAuthors());
+        model.addAttribute("publishers", publisherService.findAllPublishers());
+        model.addAttribute("bookForm", new BookForm(null, null, null, null));
+        return "new-book";
+    }
+
+    @PostMapping("books/new")
+    public String registerBook(BookForm bookForm, Model model) {
+        model.addAttribute("action", Action.REGISTER.getAction());
+        model.addAttribute("searchForm", new SearchForm(Action.BOOKS.getAction(), ""));
+        model.addAttribute("authors", authorService.findAllAuthors());
+        model.addAttribute("publishers", publisherService.findAllPublishers());
+
+        if (bookService.existsBookByTitle(bookForm.title())) {
+            model.addAttribute("error", "Book already exists!");
+        } else if (bookService.invalidData(bookForm.title(), bookForm.year())) {
+            model.addAttribute("error", "Invalid data!");
+        } else if (!authorService.existsAuthorByName(bookForm.authorName())) {
+            model.addAttribute("error", "Author does not exist!");
+        } else if (bookForm.publisherName() != null && !bookForm.publisherName().equals("(no publisher)")
+                && !publisherService.existsPublisherByName(bookForm.publisherName())) {
+            model.addAttribute("error", "Publisher does not exist!");
+        } else {
+            Author author = authorService.findAllAuthorsByName(bookForm.authorName()).get(0);
+            Publisher publisher = (bookForm.publisherName() == null
+                    || bookForm.publisherName().equals("(no publisher)")) ?
+                    null : publisherService.findAllPublishersByName(bookForm.publisherName()).get(0);
+
+            Book book = new Book(
+                    bookForm.title(),
+                    bookForm.year(),
+                    0,
+                    author,
+                    publisher
+            );
+
+            bookService.saveBook(book);
+            model.addAttribute("success", "success");
+        }
+
+        return "new-book";
     }
 
 }

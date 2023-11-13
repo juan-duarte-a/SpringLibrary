@@ -27,8 +27,8 @@ public class PublisherService {
         return publisherRepository.existsByNameIgnoreCase(name);
     }
 
-    public Publisher savePublisher(Publisher publisher) {
-        return publisherRepository.save(publisher);
+    public void savePublisher(Publisher publisher) {
+        publisherRepository.save(publisher);
     }
 
 }

@@ -2,7 +2,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  padding-top: 50px;
+  padding-top: 5rem;
 }
 
 .vh-80 {
@@ -10,16 +10,16 @@ body {
 }
 
 .main-content {
-  height: calc(100% - 25px);
+  height: calc(100% - 1.6rem);
 }
 
 .bg-content {
-  height: calc(100% - 80px);
+  height: calc(100% - 6rem);
   background-color: rgb(228, 228, 228);
 }
 
 .register-form {
-  width: max(40%, 20rem);
+  width: max(40%, 18rem);
 }
 
 .alert-icon {

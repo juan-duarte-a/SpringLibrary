@@ -16,4 +16,6 @@ public interface BookRepository extends CrudRepository<Book, String>, PagingAndS
 
     List<Book> findAllByPublisher_Name(String publisherName);
 
+    boolean existsByTitleIgnoreCase(String title);
+
 }
