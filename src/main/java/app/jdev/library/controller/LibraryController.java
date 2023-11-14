@@ -104,7 +104,7 @@ public class LibraryController {
                 + (title != null ? "Title = " + title
                 : authorName != null ? "Author = " + authorName
                 : publisherName != null ? "Publisher = " + publisherName
-                : ""));
+                : "All"));
         return "home";
     }
 
