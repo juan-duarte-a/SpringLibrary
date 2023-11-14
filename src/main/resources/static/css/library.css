@@ -10,7 +10,8 @@ body {
 }
 
 .bg-content {
-  background-color: rgb(223, 223, 223);
+  border-color: rgb(210, 210, 210);
+  background-color: rgb(220, 220, 220);
 }
 
 .register-form {
