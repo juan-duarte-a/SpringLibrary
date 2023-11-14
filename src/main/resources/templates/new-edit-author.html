@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>New publisher</title>
+  <title>New author</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/library.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,7 @@
 <nav th:replace="~{home :: header}"></nav>
 
 <div class="main-content">
-  <h2 class="p-2 m-3">Register publisher</h2>
+  <h2 class="p-2 m-3" th:text="${action} + ' author'"></h2>
   <div class="rounded bg-content p-5 m-3">
     <div class="register-form">
       <div th:if="${error != null}">
@@ -27,9 +27,7 @@
           <svg class="bi flex-shrink-0 me-2 alert-icon error-icon" role="img" aria-label="Error:">
             <use xlink:href="#exclamation-triangle-fill"/>
           </svg>
-          <div>
-            The publisher already exists or invalid name!
-          </div>
+          <div th:text="${error}"></div>
         </div>
       </div>
 
@@ -44,19 +42,18 @@
           <svg class="bi flex-shrink-0 me-2 alert-icon success-icon" role="img" aria-label="Success:">
             <use xlink:href="#check-circle-fill"/>
           </svg>
-          <div>
-            Publisher successfully registered.
-          </div>
+          <div th:text="${success}"></div>
         </div>
       </div>
 
-      <form th:action="@{/publishers/new}" th:object="${publisher}" method="post">
+      <form th:action="${action == 'Register' ? '/authors/new' : '/authors/edit'}" th:object="${author}" method="post">
         <p>
-          <label class="fs-5" for="publisher-name">Insert publisher name:</label>
-          <input class="form-control" type="text" name="publisher-name" id="publisher-name"
-                 th:field="*{name}" placeholder="publisher name" required autocomplete="off" autofocus>
+          <label class="fs-5" for="author-name">Insert author name:</label>
+          <input class="form-control" type="text" name="author-name" id="author-name"
+                 th:field="*{name}" placeholder="author name" required autocomplete="off" autofocus>
+          <input type="hidden" th:field="*{id}">
         </p>
-        <p><input class="btn btn-dark" type="submit" value="Register"></p>
+        <p><input class="btn btn-dark" type="submit" th:value="${action}"></p>
       </form>
     </div>
   </div>

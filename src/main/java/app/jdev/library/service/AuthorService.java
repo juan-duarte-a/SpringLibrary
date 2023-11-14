@@ -5,6 +5,7 @@ import app.jdev.library.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class AuthorService {
@@ -16,7 +17,8 @@ public class AuthorService {
     }
 
     public Author findAuthorById(Long id) {
-        return authorRepository.findById(id).orElseThrow();
+        return authorRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Author not found!"));
     }
 
     public List<Author> findAllAuthors() {

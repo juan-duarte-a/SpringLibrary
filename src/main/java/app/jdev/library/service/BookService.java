@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BookService {
@@ -22,7 +23,16 @@ public class BookService {
     }
 
     public List<Book> findAllBooksByTitle(String title) {
-        return bookRepository.findAllByTitleContainingIgnoreCase(title);
+        return bookRepository.findAllByTitleIgnoreCase(title);
+    }
+
+    public Book findBookByISBN(String isbn) {
+        return bookRepository.findById(isbn).orElseThrow(
+                () -> new NoSuchElementException("Book not found!"));
+    }
+
+    public List<Book> findAllBooksByTitleContaining(String title) {
+        return bookRepository.findAllByTitleContainingIgnoreCaseOrderByTitleAsc(title);
     }
 
     public List<Book> findAllBooksByAuthorName(String authorName) {
@@ -32,9 +42,14 @@ public class BookService {
     }
 
     public List<Book> findAllBooksByPublisherName(String publisherName) {
-        List<Book> books = bookRepository.findAllByPublisher_Name(publisherName);
+        List<Book> books = publisherName.isEmpty() ?
+                findAllBooksNoPublisher() : bookRepository.findAllByPublisher_Name(publisherName);
         books.sort(Comparator.comparing(Book::getTitle));
         return books;
+    }
+
+    public List<Book> findAllBooksNoPublisher() {
+        return bookRepository.findAllByPublisherIsNull();
     }
 
     public void saveBook(Book book) {

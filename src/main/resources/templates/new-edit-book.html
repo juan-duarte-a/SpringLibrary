@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>New author</title>
+  <title>New book</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/library.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,8 +13,8 @@
 <nav th:replace="~{home :: header}"></nav>
 
 <div class="main-content">
-  <h2 class="p-2 m-3">Register author</h2>
-  <div class="rounded bg-content p-5 m-3">
+  <h2 class="p-2 m-3" th:text="${action} + ' book'"></h2>
+  <div class="rounded overflow-auto bg-content p-5 m-3">
     <div class="register-form">
       <div th:if="${error != null}">
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -27,9 +27,7 @@
           <svg class="bi flex-shrink-0 me-2 alert-icon error-icon" role="img" aria-label="Error:">
             <use xlink:href="#exclamation-triangle-fill"/>
           </svg>
-          <div>
-            The author already exists or invalid name!
-          </div>
+          <div th:text="${error}"></div>
         </div>
       </div>
 
@@ -44,19 +42,44 @@
           <svg class="bi flex-shrink-0 me-2 alert-icon success-icon" role="img" aria-label="Success:">
             <use xlink:href="#check-circle-fill"/>
           </svg>
-          <div>
-            Author successfully registered.
-          </div>
+          <div th:text="${success}"></div>
         </div>
       </div>
 
-      <form th:action="@{/authors/new}" th:object="${author}" method="post">
+      <form th:action="${action == 'Register' ? '/books/new' : '/books/edit'}" th:object="${bookForm}" method="post">
         <p>
-          <label class="fs-5" for="author-name">Insert author name:</label>
-          <input class="form-control" type="text" name="author-name" id="author-name"
-                 th:field="*{name}" placeholder="author name" required autocomplete="off" autofocus>
+          <label class="fs-5" for="book-title">Insert book title:</label>
+          <input class="form-control" type="text" name="book-title" id="book-title"
+                 th:field="*{title}" placeholder="book title" required autocomplete="off" autofocus>
         </p>
-        <p><input class="btn btn-dark" type="submit" value="Register"></p>
+        <p>
+          <label class="fs-5" for="year">Insert year:</label>
+          <input class="form-control" type="number" name="book-title" id="year"
+                 th:field="*{year}" placeholder="year" autocomplete="off" autofocus>
+        </p>
+        <p>
+          <label class="fs-5" for="author">Select author:</label>
+          <input class="form-control" list="authorOptions" id="author" placeholder="type to search..."
+                 th:field="*{authorName}" required autocomplete="off">
+          <datalist id="authorOptions">
+            <option th:each="author : ${authors}"
+                    th:value="${author.name}">
+            </option>
+          </datalist>
+        </p>
+        <p>
+          <label class="fs-5" for="publisher">Select publisher:</label>
+          <input class="form-control" list="publisherOptions" id="publisher" placeholder="type to search..."
+                 th:field="*{publisherName}" autocomplete="off">
+          <datalist id="publisherOptions">
+            <option>(no publisher)</option>
+            <option th:each="publisher : ${publishers}"
+                    th:value="${publisher.name}">
+            </option>
+          </datalist>
+        </p>
+        <input type="hidden" th:field="*{isbn}">
+        <p><input class="btn btn-dark" type="submit" th:value="${action}"></p>
       </form>
     </div>
   </div>

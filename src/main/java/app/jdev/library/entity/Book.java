@@ -27,10 +27,18 @@ public class Book {
 
     public Book() { }
 
-    public Book(String title, Integer year, int copies, Author author, Publisher publisher) {
+    public Book(String title, Integer year, Author author, Publisher publisher) {
         this.title = title;
         this.year = year;
         this.copies = copies;
+        this.author = author;
+        this.publisher = publisher;
+    }
+
+    public Book(String isbn, String title, Integer year, Author author, Publisher publisher) {
+        this.isbn = isbn;
+        this.title = title;
+        this.year = year;
         this.author = author;
         this.publisher = publisher;
     }

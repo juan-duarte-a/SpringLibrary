@@ -14,7 +14,7 @@ body {
 }
 
 .bg-content {
-  height: calc(100% - 6rem);
+  height: calc(100vh - 12rem);
   background-color: rgb(228, 228, 228);
 }
 

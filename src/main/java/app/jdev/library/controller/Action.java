@@ -1,11 +1,13 @@
 package app.jdev.library.controller;
 
 public enum Action {
-    HOME("Home"),
-    AUTHORS("Authors"),
-    PUBLISHERS("Publishers"),
-    BOOKS("Books"),
-    REGISTER("Register");
+    HOME ("Home"),
+    AUTHORS ("Authors"),
+    PUBLISHERS ("Publishers"),
+    BOOKS ("Books"),
+    REGISTER ("Register"),
+    EDIT ("Edit"),
+    SEARCHBAR ("Searchbar");
 
     private final String action;
 

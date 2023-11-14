@@ -5,6 +5,7 @@ import app.jdev.library.repository.PublisherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PublisherService {
@@ -17,6 +18,11 @@ public class PublisherService {
 
     public List<Publisher> findAllPublishers() {
         return publisherRepository.findAllByOrderByNameAsc();
+    }
+
+    public Publisher findPublisherById(Long id) {
+        return publisherRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Publisher not found!"));
     }
 
     public List<Publisher> findAllPublishersByName(String name) {

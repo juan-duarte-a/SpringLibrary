@@ -10,11 +10,15 @@ public interface BookRepository extends CrudRepository<Book, String>, PagingAndS
 
     List<Book> findAllByOrderByTitleAsc();
 
-    List<Book> findAllByTitleContainingIgnoreCase(String title);
+    List<Book> findAllByTitleIgnoreCase(String title);
+
+    List<Book> findAllByTitleContainingIgnoreCaseOrderByTitleAsc(String title);
 
     List<Book> findAllByAuthor_Name(String authorName);
 
     List<Book> findAllByPublisher_Name(String publisherName);
+
+    List<Book> findAllByPublisherIsNull();
 
     boolean existsByTitleIgnoreCase(String title);
 
