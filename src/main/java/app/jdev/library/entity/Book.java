@@ -30,7 +30,6 @@ public class Book {
     public Book(String title, Integer year, Author author, Publisher publisher) {
         this.title = title;
         this.year = year;
-        this.copies = copies;
         this.author = author;
         this.publisher = publisher;
     }

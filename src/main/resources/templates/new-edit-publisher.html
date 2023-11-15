@@ -10,55 +10,56 @@
 </head>
 
 <body>
-<nav th:replace="~{home :: header}"></nav>
+  <nav th:replace="~{home :: header}"></nav>
 
-<div class="main-content">
-  <h2 class="p-2 m-3" th:text="${action} + ' publisher'"></h2>
-  <div class="rounded bg-content p-5 m-3">
-    <div class="register-form">
-      <div th:if="${error != null}">
-        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-          <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
-            <path
-                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-          </symbol>
-        </svg>
-        <div class="alert alert-danger d-flex align-items-center justify-content-start" role="alert">
-          <svg class="bi flex-shrink-0 me-2 alert-icon error-icon" role="img" aria-label="Error:">
-            <use xlink:href="#exclamation-triangle-fill"/>
+  <div class="main-content">
+    <h2 class="p-2 m-3" th:text="${action} + ' publisher'"></h2>
+    <div class="rounded bg-content p-5 m-3">
+      <div class="register-form">
+        <div th:if="${error != null}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+            <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+              <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </symbol>
           </svg>
-          <div th:text="${error}"></div>
+          <div class="alert alert-danger d-flex align-items-center justify-content-start" role="alert">
+            <svg class="bi flex-shrink-0 me-2 alert-icon error-icon" role="img" aria-label="Error:">
+              <use xlink:href="#exclamation-triangle-fill" />
+            </svg>
+            <div th:text="${error}"></div>
+          </div>
         </div>
-      </div>
 
-      <div th:if="${success != null}">
-        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-          <symbol id="check-circle-fill" viewBox="0 0 16 16">
-            <path
-                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-          </symbol>
-        </svg>
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-          <svg class="bi flex-shrink-0 me-2 alert-icon success-icon" role="img" aria-label="Success:">
-            <use xlink:href="#check-circle-fill"/>
+        <div th:if="${success != null}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+            <symbol id="check-circle-fill" viewBox="0 0 16 16">
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+            </symbol>
           </svg>
-          <div th:text="${success}"></div>
+          <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2 alert-icon success-icon" role="img" aria-label="Success:">
+              <use xlink:href="#check-circle-fill" />
+            </svg>
+            <div th:text="${success}"></div>
+          </div>
         </div>
-      </div>
 
-      <form th:action="${action == 'Register' ? '/publishers/new' : '/publishers/edit'}" th:object="${publisher}" method="post">
-        <p>
-          <label class="fs-5" for="publisher-name">Insert publisher name:</label>
-          <input class="form-control" type="text" name="publisher-name" id="publisher-name"
-                 th:field="*{name}" placeholder="publisher name" required autocomplete="off" autofocus>
-          <input type="hidden" th:field="*{id}">
-        </p>
-        <p><input class="btn btn-dark" type="submit" th:value="${action}"></p>
-      </form>
+        <form th:action="${action == 'Register' ? '/publishers/new' : '/publishers/edit'}" th:object="${publisher}"
+          th:method="${action == 'Register' ? 'post' : 'put'}">
+          <p>
+            <label class="fs-5" for="publisher-name">Insert publisher name:</label>
+            <input class="form-control" type="text" name="publisher-name" id="publisher-name" th:field="*{name}"
+              placeholder="publisher name" required autocomplete="off" autofocus>
+            <input type="hidden" th:field="*{id}">
+          </p>
+          <p><input class="btn btn-dark" type="submit" th:value="${action}"></p>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<script src="/js/bootstrap.bundle.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

@@ -10,133 +10,144 @@
 </head>
 
 <body>
-<div th:if="${action == 'Home'}" class="d-flex align-items-center justify-content-center vh-80 p-4">
-  <h1 class="display-2">Welcome to Spring Library!</h1>
-</div>
+  <div class="main-container">
+    <div th:if="${action == 'Home'}" class="d-flex align-items-center justify-content-center h1-position px-4">
+      <h1 class="display-2">Welcome to Spring Library!</h1>
+    </div>
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4" th:fragment="header">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Spring Library</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mx-4">
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${action == 'Authors' ? 'active' : ''}"
-             href="/authors">Authors</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${action == 'Publishers' ? 'active' : ''}"
-             href="/publishers">Publishers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${action == 'Books' ? 'active' : ''}"
-             href="/books">Books</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-             th:classappend="${action == 'Register' ? 'active' : ''}">
-            Register
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/authors/new">New author</a></li>
-            <li><a class="dropdown-item" href="/publishers/new">New publisher</a></li>
-            <li><a class="dropdown-item" href="/books/new">New book</a></li>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4" th:fragment="header">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Spring Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-4">
+            <li class="nav-item">
+              <a class="nav-link" th:classappend="${action == 'Authors' ? 'active' : ''}" href="/authors">Authors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:classappend="${action == 'Publishers' ? 'active' : ''}"
+                href="/publishers">Publishers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:classappend="${action == 'Books' ? 'active' : ''}" href="/books">Books</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                th:classappend="${action == 'Register' ? 'active' : ''}">
+                Register
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="/authors/new">New author</a></li>
+                <li><a class="dropdown-item" href="/publishers/new">New publisher</a></li>
+                <li><a class="dropdown-item" href="/books/new">New book</a></li>
+              </ul>
+            </li>
+
           </ul>
-        </li>
-
-      </ul>
-    </div>
-    <form class="d-flex justify-content-end" role="search"
+        </div>
+        <form class="d-flex justify-content-end input-group-sm" role="search"
           th:action="@{'/search'}" th:object="${searchForm}" method="get">
-      <input type="hidden" th:value="${action}" th:field="*{action}">
-      <input class="form-control me-2" type="search" placeholder="Search (alt+shift+k)" aria-label="Search"
-             th:field="*{searchText}" autocomplete="off" accesskey="k">
-      <button class="btn btn-outline-light" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
+          <input type="hidden" th:value="${action}" th:field="*{action}">
+          <input class="form-control me-2" type="search" placeholder="Search (alt+shift+k)" aria-label="Search"
+            th:field="*{searchText}" autocomplete="off" accesskey="k">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
 
-<div th:unless="${action == 'Home'}" class="main-content">
-  <h2 class="p-2 m-3">
-    <span th:text="${action}"></span>
-    <span th:unless="${authorName == null}" th:text="'by ' + ${authorName}"></span>
-    <span th:if="${publisherName != null and publisherName != ''}"
+    <div th:unless="${action == 'Home'}" class="d-flex main-content">
+      <h2 class="pt-2 mt-3 mx-4 mb-0">
+        <span th:text="${action}"></span>
+        <span th:unless="${authorName == null}" th:text="'by ' + ${authorName}"></span>
+        <span th:if="${publisherName != null and publisherName != ''}"
           th:text="'published by ' + ${publisherName}"></span>
-    <span th:if="${publisherName != null and publisherName == ''}"
-          th:text="'with no publisher'"></span>
-  </h2>
+        <span th:if="${publisherName != null and publisherName == ''}" th:text="'with no publisher'"></span>
+      </h2>
 
-  <div class="d-flex overflow-auto rounded border bg-content vh-80 p-3 m-3">
-    <div class="container-fluid m-1" th:if="${action == 'Authors'}">
-      <div class="row">
-        <div class="col-md-5 col-xl-4 col-xxl-3 m-1 py-2 px-3 rounded bg-light" th:each="author : ${authors}">
-          <div class="text-container">
-            <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-               th:href="'/books?author=' + ${author.authorUriValidName}" th:text="${author}"></a>
-            <a class="right-text" th:href="'/authors/edit?id=' + ${author.id}">
-              <div class="btn btn-outline-success btn-sm px-4">Edit</div>
-            </a>
-          </div>
-          <div class="mt-2">
-            <span th:text="${'Books: ' + #lists.size(author.books)}"></span>
+      <div class="overflow-auto rounded border bg-content px-3 pt-3 pb-2 m-3">
+        <div class="container-fluid" th:if="${action == 'Authors'}">
+          <div class="row">
+            <div class="col-xxl-3 col-xl-4 col-md-6 col-xs-12 p-0" th:each="author : ${authors}">
+              <div class="mx-2 mb-3 py-2 px-3 rounded bg-light">
+                <div class="text-container">
+                  <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                    th:href="'/books?author=' + ${author.authorUriValidName}" th:text="${author}"></a>
+                  <a class="right-text" th:href="'/authors/edit?id=' + ${author.id}">
+                    <div class="btn btn-outline-success btn-sm px-4">Edit</div>
+                  </a>
+                </div>
+                <div>
+                  <span th:text="${'Books: ' + #lists.size(author.books)}"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="container-fluid m-1" th:if="${action == 'Publishers'}">
-      <div class="row">
-        <div class="col-md-5 col-xl-4 col-xxl-3 m-1 py-2 px-3 rounded bg-light" th:each="publisher : ${publishers}">
-          <div class="text-container">
-            <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-               th:href="'/books?publisher=' + ${publisher.publisherUriValidName}" th:text="${publisher}"></a>
-            <a class="right-text" th:href="'/publishers/edit?id=' + ${publisher.id}">
-              <div class="btn btn-outline-success btn-sm px-4">Edit</div>
-            </a>
-          </div>
-          <div class="mt-2">
-            <span th:text="${'Books: ' + #lists.size(publisher.books)}"></span>
+        <div class="container-fluid" th:if="${action == 'Publishers'}">
+          <div class="row">
+            <div class="col-xxl-3 col-xl-4 col-md-6 col-xs-12 p-0" th:each="publisher : ${publishers}">
+              <div class="mx-2 mb-3 py-2 px-3 rounded bg-light">
+                <div class="text-container">
+                  <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                    th:href="'/books?publisher=' + ${publisher.publisherUriValidName}" th:text="${publisher}"></a>
+                  <a class="right-text" th:href="'/publishers/edit?id=' + ${publisher.id}">
+                    <div class="btn btn-outline-success btn-sm px-4">Edit</div>
+                  </a>
+                </div>
+                <div class="mt-2">
+                  <span th:text="${'Books: ' + #lists.size(publisher.books)}"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="container-fluid m-1" th:if="${action == 'Books'}">
-      <div class="row">
-        <div class="col-md-5 col-xl-4 col-xxl-3 m-1 py-2 px-3 rounded bg-light" th:each="book : ${books}">
-          <div class="text-container">
-            <b><span class="left-text mb-3" th:text="${book.title}"></span></b>
-            <a class="right-text" th:href="'/books/edit?isbn=' + ${book.isbn}">
-              <div class="btn btn-outline-success btn-sm px-4">Edit</div>
-            </a>
-          </div>
-          <div>
-            <ul>
-              <li th:text="${'ISBN: ' + book.isbn}"></li>
-              <li>
-                <span th:text="'Author:'"></span>
-                <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                   th:href="'/books?author=' + ${book.author.authorUriValidName}" th:text="${book.author}"></a>
-              </li>
-              <li>
-                <span th:text="'Publisher:'"></span>
-                <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                   th:href="'/books?publisher=' + ${(book.publisher == null ? '' : book.publisher.publisherUriValidName)}"
-                   th:text="${book.publisher == null ? '(no publisher)' : book.publisher}"></a>
-              </li>
-              <li th:text="${'Year: ' + book.year}"></li>
-            </ul>
+        <div class="container-fluid" th:if="${action == 'Books'}">
+          <div class="row">
+            <div class="col-xxl-3 col-xl-4 col-md-6 col-xs-12 p-0" th:each="book : ${books}">
+              <div class="mx-2 mb-3 py-2 px-3 rounded bg-light">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-8 pb-3 pt-1">
+                      <b><span th:text="${book.title}"></span></b>
+                    </div>
+                    <div class="d-flex col-4 pt-1 justify-content-end">
+                      <a th:href="'/books/edit?isbn=' + ${book.isbn}">
+                        <div class="btn btn-outline-success btn-sm px-4">Edit</div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <ul>
+                    <li th:text="${'ISBN: ' + book.isbn}"></li>
+                    <li>
+                      <span th:text="'Author:'"></span>
+                      <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        th:href="'/books?author=' + ${book.author.authorUriValidName}" th:text="${book.author}"></a>
+                    </li>
+                    <li>
+                      <span th:text="'Publisher:'"></span>
+                      <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        th:href="'/books?publisher=' + ${(book.publisher == null ? '' : book.publisher.publisherUriValidName)}"
+                        th:text="${book.publisher == null ? '(no publisher)' : book.publisher}"></a>
+                    </li>
+                    <li th:text="${'Year: ' + book.year}"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<script src="/js/bootstrap.bundle.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

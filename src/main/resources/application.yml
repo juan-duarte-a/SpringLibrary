@@ -4,11 +4,15 @@ spring:
     driver-class-name: "org.mariadb.jdbc.Driver"
     username: "library-user"
     password: "!123qweASD"
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   jpa:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: false

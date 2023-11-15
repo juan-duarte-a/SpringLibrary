@@ -5,17 +5,31 @@ body {
   padding-top: 5rem;
 }
 
-.vh-80 {
-  height: 80vh;
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main-content {
+  display: flex ;
+  height: 100%;
+  flex-direction: column;
+}
+
+.h1-position {
+  display: flex;
+  flex-grow: 1;
+  max-height: 90%;
 }
 
 .bg-content {
   border-color: rgb(210, 210, 210);
-  background-color: rgb(220, 220, 220);
+  background-color: rgb(222, 222, 222);
 }
 
 .register-form {
-  width: max(40%, 18rem);
+  width: max(43%, 18rem);
 }
 
 .alert-icon {
