@@ -136,7 +136,7 @@
                         th:href="'/books?publisher=' + ${(book.publisher == null ? '' : book.publisher.publisherUriValidName)}"
                         th:text="${book.publisher == null ? '(no publisher)' : book.publisher}"></a>
                     </li>
-                    <li th:text="${'Year: ' + book.year}"></li>
+                    <li th:text="${'Year: ' + book.publicationYear}"></li>
                   </ul>
                 </div>
               </div>

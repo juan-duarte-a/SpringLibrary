@@ -12,7 +12,8 @@ public class Book {
     @Column(nullable = false, unique = true)
     private String title;
 
-    private Integer year;
+//    @Column(name = "publication_year")
+    private Integer publicationYear;
 
     private int copies;
 
@@ -27,17 +28,17 @@ public class Book {
 
     public Book() { }
 
-    public Book(String title, Integer year, Author author, Publisher publisher) {
+    public Book(String title, Integer publicationYear, Author author, Publisher publisher) {
         this.title = title;
-        this.year = year;
+        this.publicationYear = publicationYear;
         this.author = author;
         this.publisher = publisher;
     }
 
-    public Book(String isbn, String title, Integer year, Author author, Publisher publisher) {
+    public Book(String isbn, String title, Integer publicationYear, Author author, Publisher publisher) {
         this.isbn = isbn;
         this.title = title;
-        this.year = year;
+        this.publicationYear = publicationYear;
         this.author = author;
         this.publisher = publisher;
     }
@@ -58,12 +59,12 @@ public class Book {
         this.title = title;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getPublicationYear() {
+        return publicationYear;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setPublicationYear(Integer publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public int getCopies() {
@@ -109,7 +110,7 @@ public class Book {
                 + " - ISBN: " + isbn + "\n"
                 + " - Author: " + author + "\n"
                 + " - Title: " + publisher
-                + ". " + year + "\n"
+                + ". " + publicationYear + "\n"
                 + " - Copies: " + copies
                 + ". Borrowed: " + borrowedCopies
                 + ". Available: " + getAvailableCopies();

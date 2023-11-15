@@ -1,4 +1,43 @@
 spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: "jdbc:h2:mem:library-test"
+    driver-class-name: "org.h2.Driver"
+    username: "user"
+    password: ""
+  h2:
+    console:
+      enable: true
+      path: "/h2"
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+  output:
+    ansi:
+      enabled: always
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
   datasource:
     url: "jdbc:mariadb://mariadb-app1:3306/library"
     driver-class-name: "org.mariadb.jdbc.Driver"
@@ -12,7 +51,7 @@ spring:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: false

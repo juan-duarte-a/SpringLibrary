@@ -119,7 +119,7 @@ public class BookController {
                     book.getTitle(),
                     book.getAuthor().getName(),
                     book.getPublisher() == null ? "(no publisher)" : book.getPublisher().getName(),
-                    book.getYear()
+                    book.getPublicationYear()
             );
             model.addAttribute("bookForm", bookForm);
         } catch (NoSuchElementException e) {
