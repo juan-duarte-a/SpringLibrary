@@ -91,7 +91,7 @@ public class BookController {
 
             var book = new Book(
                     bookForm.title(),
-                    bookForm.year(),
+                    bookForm.publicationYear(),
                     author,
                     publisher
             );
@@ -147,7 +147,7 @@ public class BookController {
             var book = new Book(
                     bookForm.isbn(),
                     bookForm.title(),
-                    bookForm.year(),
+                    bookForm.publicationYear(),
                     author,
                     publisher
             );
@@ -167,7 +167,7 @@ public class BookController {
         if (!books.isEmpty() && !books.get(0).getIsbn().equals(bookForm.isbn())) {
             model.addAttribute("error", "Book already exists!");
             valid = false;
-        } else if (bookService.invalidData(bookForm.title(), bookForm.year())) {
+        } else if (bookService.invalidData(bookForm.title(), bookForm.publicationYear())) {
             model.addAttribute("error", "Invalid data!");
             valid = false;
         } else if (!authorService.existsAuthorByName(bookForm.authorName())) {
