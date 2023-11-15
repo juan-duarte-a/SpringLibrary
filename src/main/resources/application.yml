@@ -5,7 +5,7 @@ spring:
     username: "library-user"
     password: "!123qweASD"
   mvc:
-    hiddenmethod:
+    hidden-method:
       filter:
         enabled: true
   jpa:
