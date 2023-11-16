@@ -63,9 +63,12 @@ body {
   float: right;
 }
 
+.edit-button, .delete-button {
+  width: 4.5rem;
+}
+
 .delete-button {
   height: 1.4rem;
-  width: 4.7rem;
 }
 
 .delete-button-book {

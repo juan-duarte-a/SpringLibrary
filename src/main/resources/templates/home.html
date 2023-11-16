@@ -39,7 +39,7 @@
                   <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                     th:href="'/books?author=' + ${author.authorUriValidName}" th:text="${author}"></a>
                   <a class="right-text" th:href="'/authors/edit?id=' + ${author.id}">
-                    <div class="btn btn-outline-success btn-sm px-4">Edit</div>
+                    <div class="btn btn-outline-success btn-sm edit-button px-4">Edit</div>
                   </a>
                 </div>
                 <div class="text-container">
@@ -62,7 +62,7 @@
                   <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                     th:href="'/books?publisher=' + ${publisher.publisherUriValidName}" th:text="${publisher}"></a>
                   <a class="right-text" th:href="'/publishers/edit?id=' + ${publisher.id}">
-                    <div class="btn btn-outline-success btn-sm px-4">Edit</div>
+                    <div class="btn btn-outline-success btn-sm edit-button px-4">Edit</div>
                   </a>
                 </div>
                 <div class="text-container">
@@ -88,7 +88,7 @@
                     </div>
                     <div class="d-flex col-4 pt-1 justify-content-end">
                       <a th:href="'/books/edit?isbn=' + ${book.isbn}">
-                        <div class="btn btn-outline-success btn-sm px-4">Edit</div>
+                        <div class="btn btn-outline-success btn-sm edit-button px-4">Edit</div>
                       </a>
                     </div>
                   </div>
