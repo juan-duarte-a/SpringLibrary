@@ -12,7 +12,7 @@ body {
 }
 
 .main-content {
-  display: flex ;
+  display: flex;
   height: 100%;
   flex-direction: column;
 }
@@ -50,15 +50,24 @@ body {
 }
 
 .text-container {
-    width: 100%;
-    text-align: justify;
-    overflow: hidden;
+  width: 100%;
+  text-align: justify;
+  overflow: hidden;
 }
 
 .left-text {
-    float: left;
+  float: left;
 }
 
 .right-text {
-    float: right;
+  float: right;
+}
+
+.delete-button {
+  height: 1.4rem;
+  width: 4.7rem;
+}
+
+.delete-button-book {
+  margin-right: 0.75rem;
 }

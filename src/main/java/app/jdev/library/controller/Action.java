@@ -7,6 +7,7 @@ public enum Action {
     BOOKS ("Books"),
     REGISTER ("Register"),
     EDIT ("Edit"),
+    DELETE ("Delete"),
     SEARCHBAR ("Searchbar");
 
     private final String action;

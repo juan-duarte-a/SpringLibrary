@@ -5,21 +5,26 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends CrudRepository<Book, String>, PagingAndSortingRepository<Book, String> {
 
-    List<Book> findAllByOrderByTitleAsc();
+    List<Book> findAllByEnabledTrueOrderByTitleAsc();
 
-    List<Book> findAllByTitleIgnoreCase(String title);
+    List<Book> findAllByTitleIgnoreCaseAndEnabledTrue(String title);
 
-    List<Book> findAllByTitleContainingIgnoreCaseOrderByTitleAsc(String title);
+    List<Book> findAllByTitleContainingIgnoreCaseAndEnabledTrueOrderByTitleAsc(String title);
 
-    List<Book> findAllByAuthor_Name(String authorName);
+    List<Book> findAllByEnabledTrueAndAuthor_Name(String authorName);
 
-    List<Book> findAllByPublisher_Name(String publisherName);
+    List<Book> findAllByEnabledTrueAndPublisher_Name(String publisherName);
 
-    List<Book> findAllByPublisherIsNull();
+    List<Book> findAllByEnabledTrueAndPublisherIsNull();
 
-    boolean existsByTitleIgnoreCase(String title);
+    Optional<Book> findByTitleIgnoreCaseAndEnabledFalse(String title);
+
+    boolean existsByTitleIgnoreCaseAndEnabledTrue(String title);
+
+    boolean existsByTitleIgnoreCaseAndEnabledFalse(String title);
 
 }

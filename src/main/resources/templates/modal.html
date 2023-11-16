@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/library.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modal</title>
+</head>
+
+<body>
+  <div th:each="author : ${authors}" th:id="${'modal-' + author.id}" th:fragment="delete-author"
+    class="modal fade" tabindex="-1" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-light">Delete author</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <span class="text-light" th:text="'Are you sure you want to delete ' + ${author.name} +'?'"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form th:action="'/authors/delete/' + ${author.id}" th:method="delete">
+            <input type="hidden" name="id" th:value="${author.id}">
+            <input type="hidden" name="url" th:value="${url}">
+            <input class="btn btn-danger" type="submit" value="Delete author">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:each="publisher : ${publishers}" th:id="${'modal-' + publisher.id}" th:fragment="delete-publisher"
+    class="modal fade" tabindex="-1" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-light">Delete publisher</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <span class="text-light" th:text="'Are you sure you want to delete ' + ${publisher.name} +'?'"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form th:action="'/publishers/delete/' + ${publisher.id}" th:method="delete">
+            <input type="hidden" name="id" th:value="${publisher.id}">
+            <input type="hidden" name="url" th:value="${url}">
+            <input class="btn btn-danger" type="submit" value="Delete publisher">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:each="book : ${books}" th:id="${'modal-' + book.isbn}" th:fragment="delete-book"
+    class="modal fade" tabindex="-1" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-light">Delete book</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <span class="text-light" th:text="'Are you sure you want to delete ' + ${book.title} +'?'"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form th:action="'/books/delete/' + ${book.isbn}" th:method="delete">
+            <input type="hidden" name="isbn" th:value="${book.isbn}">
+            <input type="hidden" name="url" th:value="${url}">
+            <input class="btn btn-danger" type="submit" value="Delete book">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -26,9 +26,15 @@ public class Book {
     @ManyToOne
     private Publisher publisher;
 
-    public Book() { }
+    @Column(nullable = false)
+    private boolean enabled;
+
+    public Book() {
+        this.enabled = true;
+    }
 
     public Book(String title, Integer publicationYear, Author author, Publisher publisher) {
+        this();
         this.title = title;
         this.publicationYear = publicationYear;
         this.author = author;
@@ -36,6 +42,7 @@ public class Book {
     }
 
     public Book(String isbn, String title, Integer publicationYear, Author author, Publisher publisher) {
+        this();
         this.isbn = isbn;
         this.title = title;
         this.publicationYear = publicationYear;
@@ -101,6 +108,14 @@ public class Book {
 
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

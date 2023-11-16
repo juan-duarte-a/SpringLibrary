@@ -19,9 +19,15 @@ public class Author {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
     private List<Book> books;
 
-    public Author() { }
+    @Column(nullable = false)
+    private boolean enabled;
+
+    public Author() {
+        this.enabled = true;
+    }
 
     public Author(String name) {
+        this();
         this.name = name;
     }
 
@@ -42,11 +48,19 @@ public class Author {
     }
 
     public List<Book> getBooks() {
-        return books;
+        return books.stream().filter(book -> book.isEnabled()).toList();
     }
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getAuthorUriValidName() {

@@ -25,7 +25,7 @@ public class LibraryController {
 
 
     @GetMapping("search")
-    public String search(SearchForm searchForm) {
+    public String search(SearchForm searchForm, Model model) {
         if (searchForm.action() == null) {
             return "redirect:/";
         }
@@ -33,19 +33,20 @@ public class LibraryController {
         String redirectURL = "";
 
         switch (searchForm.action()) {
-            case "Home", "Books" -> redirectURL = UriComponentsBuilder.fromPath("books")
+            case "Home", "Books" -> redirectURL = UriComponentsBuilder.fromPath("/books")
                     .queryParam("title", URLEncoder.encode(searchForm.searchText(), StandardCharsets.UTF_8))
                     .build().toUriString();
-            case "Publishers" -> redirectURL = UriComponentsBuilder.fromPath("publishers")
+            case "Publishers" -> redirectURL = UriComponentsBuilder.fromPath("/publishers")
                     .queryParam("name", URLEncoder.encode(searchForm.searchText(), StandardCharsets.UTF_8))
                     .build().toUriString();
-            case "Authors" -> redirectURL = UriComponentsBuilder.fromPath("authors")
+            case "Authors" -> redirectURL = UriComponentsBuilder.fromPath("/authors")
                     .queryParam("name", URLEncoder.encode(searchForm.searchText(), StandardCharsets.UTF_8))
                     .build().toUriString();
         }
 
+        model.addAttribute("url", redirectURL);
         LogService.log(Action.SEARCHBAR, "Search = " + searchForm.searchText());
-        return "redirect:/" + redirectURL;
+        return "redirect:" + redirectURL;
     }
 
 }

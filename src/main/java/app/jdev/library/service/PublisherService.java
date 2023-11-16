@@ -17,7 +17,7 @@ public class PublisherService {
     }
 
     public List<Publisher> findAllPublishers() {
-        return publisherRepository.findAllByOrderByNameAsc();
+        return publisherRepository.findAllByEnabledTrueOrderByNameAsc();
     }
 
     public Publisher findPublisherById(Long id) {
@@ -25,16 +25,35 @@ public class PublisherService {
                 () -> new NoSuchElementException("Publisher not found!"));
     }
 
-    public List<Publisher> findAllPublishersByName(String name) {
-        return publisherRepository.findAllByNameContainingIgnoreCase(name);
+    public Publisher findPublisherByName(String name) {
+        return publisherRepository.findByNameIgnoreCaseAndEnabledTrue(name).orElseThrow(
+                () -> new NoSuchElementException("Publisher not found!"));
     }
 
-    public boolean existsPublisherByName(String name) {
-        return publisherRepository.existsByNameIgnoreCase(name);
+    public Publisher findDisabledPublisherByName(String name) {
+        return publisherRepository.findByNameIgnoreCaseAndEnabledFalse(name).orElseThrow(
+                () -> new NoSuchElementException("Publisher not found!"));
+    }
+
+    public List<Publisher> findAllPublishersByName(String name) {
+        return publisherRepository.findAllByNameContainingIgnoreCaseAndEnabledTrue(name);
     }
 
     public void savePublisher(Publisher publisher) {
         publisherRepository.save(publisher);
+    }
+
+    public void deletePublisher(Publisher publisher) {
+        publisher.setEnabled(false);
+        publisherRepository.save(publisher);
+    }
+
+    public boolean existsPublisherByName(String name) {
+        return publisherRepository.existsByNameIgnoreCaseAndEnabledTrue(name);
+    }
+
+    public boolean existsDisabledPublisherByName(String name) {
+        return publisherRepository.existsByNameIgnoreCaseAndEnabledFalse(name);
     }
 
 }
