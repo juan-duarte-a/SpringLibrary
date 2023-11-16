@@ -128,7 +128,7 @@ public class AuthorController {
         Author author = authorService.findAuthorById(id);
         bookService.findAllBooksByAuthorName(author.getName()).forEach(bookService::deleteBook);
         authorService.deleteAuthor(author);
-        LogService.log(Action.DELETE, "Delete author - Publisher ID = " + author.getId());
+        LogService.log(Action.DELETE, "Delete author - Author ID = " + author.getId());
         return "redirect:" + url;
     }
 
