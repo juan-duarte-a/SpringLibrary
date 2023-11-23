@@ -12,7 +12,6 @@ public class Book {
     @Column(nullable = false, unique = true)
     private String title;
 
-//    @Column(name = "publication_year")
     private Integer publicationYear;
 
     private int copies;

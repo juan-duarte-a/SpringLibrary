@@ -92,7 +92,9 @@ public class BookController {
         model.addAttribute("authors", authorService.findAllAuthors());
         model.addAttribute("publishers", publisherService.findAllPublishers());
 
-        if (isValidBookForm(bookForm, model)) {
+        if (bookService.existsBookByTitle(bookForm.title())) {
+            model.addAttribute("error", "Book already exists!");
+        } else if (isValidBookForm(bookForm, model)) {
             Author author = authorService.findAuthorByName(bookForm.authorName());
             Publisher publisher = (bookForm.publisherName() == null
                     || bookForm.publisherName().equals("(no publisher)")) ? null
@@ -118,9 +120,9 @@ public class BookController {
 
             bookService.saveBook(book);
             model.addAttribute("success", "Book successfully registered.");
+            LogService.log(Action.REGISTER, "Register book - Book = " + bookForm.title());
         }
 
-        LogService.log(Action.REGISTER, "Register book - Book = " + bookForm.title());
         return "new-edit-book";
     }
 
@@ -190,10 +192,7 @@ public class BookController {
     private boolean isValidBookForm(BookForm bookForm, Model model) {
         boolean valid = true;
 
-        if (bookService.existsBookByTitle(bookForm.title())) {
-            model.addAttribute("error", "Book already exists!");
-            valid = false;
-        } else if (bookService.invalidData(bookForm.title(), bookForm.publicationYear())) {
+        if (bookService.invalidData(bookForm.title(), bookForm.publicationYear())) {
             model.addAttribute("error", "Invalid data!");
             valid = false;
         } else if (!authorService.existsAuthorByName(bookForm.authorName())) {
