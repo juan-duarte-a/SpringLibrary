@@ -38,10 +38,10 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: "jdbc:mariadb://mariadb-app1:3306/library"
+    url: ${DB_URL}
     driver-class-name: "org.mariadb.jdbc.Driver"
-    username: "library-user"
-    password: "!123qweASD"
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   mvc:
     hidden-method:
       filter:
@@ -58,3 +58,6 @@ spring:
   output:
     ansi:
       enabled: always
+server:
+  error:
+    include-stacktrace: never

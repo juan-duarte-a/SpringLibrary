@@ -10,9 +10,11 @@
 </head>
 
 <body>
-  <div th:if="action == 'Authors'" th:replace="~{modal :: delete-author}"></div>
-  <div th:if="action == 'Publishers'" th:replace="~{modal :: delete-publisher}"></div>
-  <div th:if="action == 'Books'" th:replace="~{modal :: delete-book}"></div>
+  <div>
+    <div th:if="action == 'Authors'" th:replace="~{modal :: delete-author}"></div>
+    <div th:if="action == 'Publishers'" th:replace="~{modal :: delete-publisher}"></div>
+    <div th:if="action == 'Books'" th:replace="~{modal :: delete-book}"></div>
+  </div>
 
   <div class="main-container">
     <div th:if="${action == 'Home'}" class="d-flex align-items-center justify-content-center h1-position px-4">
@@ -37,8 +39,8 @@
               <div class="mx-2 mb-3 py-2 px-3 rounded bg-light">
                 <div class="text-container">
                   <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                    th:href="'/books?author=' + ${author.authorUriValidName}" th:text="${author}"></a>
-                  <a class="right-text" th:href="'/authors/edit?id=' + ${author.id}">
+                    th:href="@{/books?author=__${author.authorUriValidName}__}" th:text="${author}"></a>
+                  <a class="right-text" th:href="@{/authors/edit?id=__${author.id}__}">
                     <div class="btn btn-outline-success btn-sm edit-button px-4">Edit</div>
                   </a>
                 </div>
@@ -60,8 +62,8 @@
               <div class="mx-2 mb-3 py-2 px-3 rounded bg-light">
                 <div class="text-container">
                   <a class="left-text link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                    th:href="'/books?publisher=' + ${publisher.publisherUriValidName}" th:text="${publisher}"></a>
-                  <a class="right-text" th:href="'/publishers/edit?id=' + ${publisher.id}">
+                    th:href="@{/books?publisher=__${publisher.publisherUriValidName}__}" th:text="${publisher}"></a>
+                  <a class="right-text" th:href="@{/publishers/edit?id=__${publisher.id}__}">
                     <div class="btn btn-outline-success btn-sm edit-button px-4">Edit</div>
                   </a>
                 </div>
@@ -87,7 +89,7 @@
                       <b><span th:text="${book.title}"></span></b>
                     </div>
                     <div class="d-flex col-4 pt-1 justify-content-end">
-                      <a th:href="'/books/edit?isbn=' + ${book.isbn}">
+                      <a th:href="@{/books/edit?isbn=__${book.isbn}__}">
                         <div class="btn btn-outline-success btn-sm edit-button px-4">Edit</div>
                       </a>
                     </div>
@@ -99,12 +101,12 @@
                     <li>
                       <span th:text="'Author:'"></span>
                       <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                        th:href="'/books?author=' + ${book.author.authorUriValidName}" th:text="${book.author}"></a>
+                        th:href="@{/books?author=__${book.author.authorUriValidName}__}" th:text="${book.author}"></a>
                     </li>
                     <li>
                       <span th:text="'Publisher:'"></span>
                       <a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                        th:href="'/books?publisher=' + ${(book.publisher == null ? '' : book.publisher.publisherUriValidName)}"
+                        th:href="@{/books?publisher=__${(book.publisher == null ? '' : book.publisher.publisherUriValidName)}__}"
                         th:text="${book.publisher == null ? '(no publisher)' : book.publisher}"></a>
                     </li>
                     <li>

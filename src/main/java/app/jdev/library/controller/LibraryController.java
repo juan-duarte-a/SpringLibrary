@@ -23,7 +23,6 @@ public class LibraryController {
         return "home";
     }
 
-
     @GetMapping("search")
     public String search(SearchForm searchForm, Model model) {
         if (searchForm.action() == null) {

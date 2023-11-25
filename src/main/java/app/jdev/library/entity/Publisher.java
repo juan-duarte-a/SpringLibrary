@@ -48,7 +48,7 @@ public class Publisher {
     }
 
     public List<Book> getBooks() {
-        return books.stream().filter(book -> book.isEnabled()).toList();
+        return books.stream().filter(Book::isEnabled).toList();
     }
 
     public void setBooks(List<Book> books) {
